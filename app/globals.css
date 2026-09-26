@@ -1,0 +1,530 @@
+/* Font dikelola oleh next/font/google di app/layout.tsx — tidak perlu @import CDN */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================================
+   CSS Custom Properties — FORTI Dark Navy + Cyan
+   Warna diambil dari logo FORTI
+   ================================================================ */
+:root {
+  /* Dark theme by default */
+  --background:   210 30% 18%;  /* #1e3040 navy-900 */
+  --foreground:   210 60% 96%;  /* #f0f6fc snow */
+  --card:         210 28% 22%;  /* #243649 navy-800 */
+  --card-foreground: 210 60% 96%;
+  --popover:      210 28% 22%;
+  --popover-foreground: 210 60% 96%;
+  --primary:      201 76% 52%;  /* #29abe2 cyan */
+  --primary-foreground: 210 30% 12%;
+  --secondary:    210 25% 28%;  /* navy-700 */
+  --secondary-foreground: 210 50% 85%;
+  --muted:        210 25% 28%;
+  --muted-foreground: 210 30% 60%; /* silver-dim */
+  --accent:       201 76% 52%;
+  --accent-foreground: 210 30% 12%;
+  --destructive:  0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border:       210 25% 28%;  /* navy-700 */
+  --input:        210 25% 28%;
+  --ring:         201 76% 52%;
+  --radius:       0.375rem;     /* 6px — sedikit rounded, tidak terlalu "flat" */
+}
+
+/* ================================================================
+   Base
+   ================================================================ */
+@layer base {
+  * { @apply box-border; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background-color: #1e3040;
+    color: #f0f6fc;
+    font-family: var(--font-inter), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+  img, canvas { display: block; }
+
+  /* Scrollbar — subtle dark */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #111e2a; }
+  ::-webkit-scrollbar-thumb { background: #2d4a63; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #29abe2; }
+}
+
+/* ================================================================
+   Typography
+   ================================================================ */
+@layer utilities {
+  .font-display { font-family: var(--font-syne), sans-serif; }
+  .font-mono-code { font-family: var(--font-jetbrains), monospace; }
+
+  /* Gradient text — cyan */
+  .text-gradient {
+    background: linear-gradient(135deg, #29abe2 0%, #3dbef5 50%, #b0c4d8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effects */
+  .glow-cyan    { text-shadow: 0 0 20px #29abe260; }
+  .glow-cyan-sm { text-shadow: 0 0 8px #29abe240; }
+
+  /* Rotating light sweep — mengelilingi object 3D */
+  .light-sweep {
+    animation: light-sweep 4s linear infinite;
+  }
+  .light-sweep-slow {
+    animation: light-sweep 7s linear infinite reverse;
+  }
+
+  @keyframes light-sweep {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Border glow */
+  .border-glow { box-shadow: 0 0 0 1px #29abe230, inset 0 0 0 1px #29abe215; }
+  .border-glow-hover:hover { box-shadow: 0 0 0 1px #29abe250, 0 0 20px #29abe220; }
+}
+
+/* ================================================================
+   Components
+   ================================================================ */
+@layer components {
+
+  /* ── Noise texture overlay (mengurangi kesan digital flat) ── */
+  .noise-overlay {
+    position: relative;
+  }
+  .noise-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+
+  /* ── Navigation ── */
+  .nav-bar {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+  }
+  .nav-bar.scrolled {
+    background: rgba(17, 30, 42, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #2d4a63;
+  }
+
+  /* ── Brand ── */
+  .brand-mark {
+    @apply relative h-9 w-9 shrink-0 overflow-hidden rounded-full;
+    border: 1.5px solid #29abe260;
+    box-shadow: 0 0 12px #29abe230;
+  }
+
+  /* ── Mono label (section tags, captions) ── */
+  .mono-label {
+    font-family: var(--font-jetbrains), monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #29abe2;
+    text-transform: uppercase;
+  }
+
+  /* ── Heading styles ── */
+  .h-display {
+    font-family: var(--font-syne), sans-serif;
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+  }
+  .h-section {
+    font-family: var(--font-syne), sans-serif;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  /* ── Card styles ── */
+  .card-navy {
+    background: #243649;
+    border: 1px solid #2d4a63;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card-navy:hover {
+    border-color: #29abe260;
+    box-shadow: 0 8px 40px #0d1a2440, 0 0 0 1px #29abe220;
+  }
+
+  .card-dark {
+    background: #111e2a;
+    border: 1px solid #2d4a63;
+    border-radius: 8px;
+  }
+
+  /* ── Button variants ── */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 font-semibold text-[13px] rounded-md transition-all;
+    padding: 11px 20px;
+    background: #29abe2;
+    color: #111e2a;
+  }
+  .btn-primary:hover {
+    background: #3dbef5;
+    box-shadow: 0 0 20px #29abe240;
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 font-semibold text-[13px] rounded-md transition-all;
+    padding: 10px 20px;
+    background: transparent;
+    color: #f0f6fc;
+    border: 1px solid #2d4a63;
+  }
+  .btn-outline:hover {
+    border-color: #29abe2;
+    color: #29abe2;
+    box-shadow: 0 0 16px #29abe220;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 font-medium text-[13px] transition-colors;
+    color: #b0c4d8;
+    padding: 8px 0;
+  }
+  .btn-ghost:hover { color: #29abe2; }
+
+  /* ── Hero grid background ── */
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(41,171,226,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(41,171,226,0.06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 70% at 60% 50%, #000 30%, transparent 80%);
+    pointer-events: none;
+  }
+
+  /* ── Glow orb (hero visual) ── */
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  /* ── Scan line (tech feel tanpa kesan AI) ── */
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #29abe260, transparent);
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+  }
+
+  /* ── Float card (annotation di hero) ── */
+  .float-card {
+    background: rgba(17, 30, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid #2d4a63;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: var(--font-jetbrains), monospace;
+    font-size: 10px;
+    color: #b0c4d8;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 20px #0d1a2440;
+  }
+
+  /* ── Section divider ── */
+  .divider-cyan {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #29abe240, transparent);
+  }
+
+  /* ── Status badge ── */
+  .badge-status {
+    font-family: var(--font-jetbrains), monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border-radius: 20px;
+  }
+
+  /* ── Form elements ── */
+  .field-input {
+    width: 100%;
+    background: #111e2a;
+    border: 1px solid #2d4a63;
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-size: 13px;
+    color: #f0f6fc;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: var(--font-inter), sans-serif;
+  }
+  .field-input::placeholder { color: #4d7a9e; }
+  .field-input:focus {
+    border-color: #29abe2;
+    box-shadow: 0 0 0 3px #29abe215;
+  }
+  .field-input:disabled { opacity: 0.5; cursor: not-allowed; }
+  select.field-input option { background: #1e3040; color: #f0f6fc; }
+
+  /* Sembunyikan spinner bawaan browser di input number */
+  input[type="number"].field-input::-webkit-inner-spin-button,
+  input[type="number"].field-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"].field-input { -moz-appearance: textfield; appearance: textfield; }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #b0c4d8;
+    display: grid;
+    gap: 6px;
+    letter-spacing: 0.02em;
+  }
+  .field-error { font-size: 10px; color: #f87171; }
+
+/* ── Org structure lines ── */
+  .org-line-h {
+    position: relative;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #2d4a63 20%, #2d4a63 80%, transparent);
+    overflow: hidden;
+  }
+  .org-line-h::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #29abe2, #7fd3f2, transparent);
+    animation: org-sweep-h 2.8s ease-in-out infinite;
+  }
+
+  .org-line-v {
+    position: relative;
+    width: 2px;
+    background: linear-gradient(180deg, transparent, #2d4a63 20%, #2d4a63 80%, transparent);
+    overflow: hidden;
+  }
+  .org-line-v::after {
+    content: "";
+    position: absolute;
+    left: 0; top: -60%;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(180deg, transparent, #29abe2, #7fd3f2, transparent);
+    animation: org-sweep-v 2.8s ease-in-out infinite;
+  }
+
+  .org-node {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #2d4a63;
+    border: 1.5px solid #29abe260;
+    position: relative;
+  }
+  .org-node::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: #29abe2;
+    opacity: 0;
+    animation: org-node-pulse 2.8s ease-in-out infinite;
+  }
+  .org-node-bright {
+    background: #29abe240;
+    border-color: #29abe2;
+  }
+  .org-node-bright::after {
+    animation-delay: 0.3s;
+  }
+
+  @keyframes org-sweep-h {
+    0%   { left: -60%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+  @keyframes org-sweep-v {
+    0%   { top: -60%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes org-node-pulse {
+    0%, 100% { transform: scale(1); opacity: 0; }
+    50% { transform: scale(2.5); opacity: 0.3; }
+  }
+  .page-intro {
+    padding: 56px 6% 40px;
+    background: #111e2a;
+    border-bottom: 1px solid #2d4a63;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .page-intro {
+      padding: 80px 6% 56px;
+    }
+  }
+  .page-intro::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #29abe250, transparent);
+  }
+
+  /* ── 3D scene container ── */
+  .scene-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .scene-wrap canvas,
+  .scene-wrap > div,
+  .scene-wrap > div > canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Canvas langsung di dalam absolute div */
+  [class*="scene"] canvas,
+  [class*="hero"] canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .scene-loader {
+    @apply flex h-full w-full flex-col items-center justify-center gap-4;
+    font-family: var(--font-jetbrains), monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #4d7a9e;
+  }
+  .scene-loader-ring {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 1px solid #2d4a63;
+    border-top-color: #29abe2;
+    animation: spin 1.8s linear infinite;
+  }
+
+  /* ── Empty state ── */
+  .empty-state {
+    border: 1px dashed #2d4a63;
+    border-radius: 8px;
+    padding: 48px 24px;
+    text-align: center;
+    font-size: 13px;
+    color: #4d7a9e;
+    line-height: 1.8;
+  }
+
+  /* ── Member card ── */
+  .member-photo {
+    aspect-ratio: 1 / 1.15;
+    background: #243649;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── Review card (admin) ── */
+  .review-card {
+    @apply card-navy flex flex-col md:flex-row items-start justify-between gap-5 p-5;
+  }
+
+  /* ── Project art area ── */
+  .project-art {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    background: #243649;
+  }
+
+  /* ── Ticker ── */
+  .ticker-wrap {
+    height: 44px;
+    background: #111e2a;
+    border-top: 1px solid #2d4a63;
+    border-bottom: 1px solid #2d4a63;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 22s linear infinite;
+    width: max-content;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+    font-family: var(--font-jetbrains), monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: #4d7a9e;
+  }
+  .ticker-dot { color: #29abe2; font-size: 13px; }
+}
+
+/* ================================================================
+   Keyframes
+   ================================================================ */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scan {
+  0%   { top: -2px; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ================================================================
+   Responsive
+   ================================================================ */
+@media (max-width: 768px) {
+  .page-intro { padding: 56px 5% 40px; }
+}
