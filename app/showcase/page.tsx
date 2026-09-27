@@ -23,9 +23,8 @@ export default function ShowcasePage() {
   return (
     <PageFrame>
       <PageIntro
-        number="02"
         label="ETALASE KARYA"
-        title={<>Ide yang jadi<br /><span className="text-[#29abe2]">nyata.</span></>}
+        title={<>Ide yang jadi<br /><span className="text-[#29abe2]">nyata</span></>}
         description="Proyek pilihan mahasiswa FoRTI yang dibangun dari rasa ingin tahu, kolaborasi, dan keberanian mencoba."
       />
       <section className="px-[6%] py-16">

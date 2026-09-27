@@ -132,7 +132,39 @@ CREATE TABLE IF NOT EXISTS public.pkm_submissions (
 CREATE INDEX IF NOT EXISTS idx_pkm_status ON public.pkm_submissions(status);
 
 -- ============================================================
--- 7. Trigger: Buat Profil Otomatis saat User Baru Daftar
+-- 7. Tabel Berita / News Posts
+-- ============================================================
+CREATE TABLE IF NOT EXISTS public.news_posts (
+  id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  title          TEXT        NOT NULL,
+  excerpt        TEXT,
+  thumbnail_url  TEXT        NOT NULL,
+  ig_url         TEXT        NOT NULL,
+  category       TEXT,
+  published      BOOLEAN     NOT NULL DEFAULT false,
+  published_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_by     UUID        REFERENCES public.profiles(id) ON DELETE SET NULL,
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_news_published ON public.news_posts(published, published_at DESC);
+
+-- RLS: publik baca yang published, admin bisa semua
+ALTER TABLE public.news_posts ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "news_public_read"  ON public.news_posts;
+DROP POLICY IF EXISTS "news_admin_all"    ON public.news_posts;
+
+CREATE POLICY "news_public_read" ON public.news_posts
+  FOR SELECT USING (published = true);
+
+CREATE POLICY "news_admin_all" ON public.news_posts
+  FOR ALL USING (
+    EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role = 'admin')
+  );
+
+-- ============================================================
+-- 8. Trigger: Buat Profil Otomatis saat User Baru Daftar
 -- ============================================================
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER

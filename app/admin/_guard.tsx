@@ -34,6 +34,7 @@ export function AdminNav() {
     { href: "/admin/kepengurusan", label: "Kepengurusan" },
     { href: "/admin/final-projects", label: "Final Project" },
     { href: "/admin/pkm", label: "Verifikasi PKM" },
+    { href: "/admin/news", label: "Berita" },
   ];
   return (
     <div className="flex gap-1 border-b border-[#2d4a63] mb-6">

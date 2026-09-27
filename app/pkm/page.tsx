@@ -28,9 +28,8 @@ export default function PkmPage() {
   return (
     <PageFrame>
       <PageIntro
-        number="03"
         label="REPOSITORI GAGASAN"
-        title={<>Kumpulan ide<br /><span className="text-[#29abe2]">yang berdampak.</span></>}
+        title={<>Kumpulan ide<br /><span className="text-[#29abe2]">yang berdampak</span></>}
         description="Katalog karya Program Kreativitas Mahasiswa FoRTI. Baca ringkasan, temukan inspirasi, jelajahi dokumen."
       />
       <section className="px-[6%] py-16">

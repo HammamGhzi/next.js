@@ -168,6 +168,8 @@
     background: #243649;
     border: 1px solid #2d4a63;
     border-radius: 8px;
+    overflow: hidden;
+    transform: translateZ(0);
     transition: border-color 0.2s, box-shadow 0.2s;
   }
   .card-navy:hover {
@@ -447,6 +449,32 @@
     color: #4d7a9e;
     line-height: 1.8;
   }
+
+  /* ── Form fields ── */
+  .label-field {
+    display: block;
+    font-family: var(--font-jetbrains), monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: #4d7a9e;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .input-field {
+    background: #1e3040;
+    border: 1px solid #2d4a63;
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: 13px;
+    color: #f0f6fc;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .input-field:focus {
+    border-color: #29abe2;
+    box-shadow: 0 0 0 3px #29abe215;
+  }
+  .input-field::placeholder { color: #4d7a9e; }
 
   /* ── Member card ── */
   .member-photo {

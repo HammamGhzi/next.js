@@ -52,7 +52,7 @@ function LoginContent() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email: v.email, password: v.password });
       if (error) throw error;
-      router.push(nextPath);
+      window.location.href = nextPath;
     } catch (e) { setMessage(e instanceof Error ? e.message : "Terjadi kesalahan."); }
     finally { setBusy(false); }
   }

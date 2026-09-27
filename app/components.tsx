@@ -169,8 +169,8 @@ export function PageIntro({
   title,
   description,
 }: {
-  number: string;
-  label: string;
+  number?: string;
+  label?: string;
   title: React.ReactNode;
   description?: string;
 }) {
@@ -178,11 +178,13 @@ export function PageIntro({
     <section className="page-intro">
       <div className="grid-bg opacity-30" />
       <div className="relative z-10 max-w-3xl">
-        <div className="mono-label mb-5 flex items-center gap-3">
-          <span className="text-[#2d4a63]">{number}</span>
-          <span className="w-6 h-px bg-[#29abe2]" />
-          <span>{label}</span>
-        </div>
+        {(number || label) && (
+          <div className="mono-label mb-5 flex items-center gap-3">
+            {number && <span className="text-[#2d4a63]">{number}</span>}
+            {number && label && <span className="w-6 h-px bg-[#29abe2]" />}
+            {label && <span>{label}</span>}
+          </div>
+        )}
         <h1 className="h-section text-[clamp(32px,5.5vw,68px)] text-[#f0f6fc] mb-4 font-display">
           {title}
         </h1>

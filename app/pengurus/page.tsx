@@ -122,10 +122,9 @@ export default function PengurusPage() {
   return (
     <PageFrame>
       <PageIntro
-        number="01"
         label="KELUARGA FORTI"
-        title={<>Orang-orang di balik<br /><span className="text-[#29abe2]">setiap kemungkinan.</span></>}
-        description="Kenali pengurus aktif dan lihat perjalanan kepengurusan FoRTI dari tahun ke tahun."
+        title={<>Orang-orang di balik<br /><span className="text-[#29abe2]">setiap kemungkinan</span></>}
+        description="Kenali pengurus aktif FoRTI, dari pimpinan hingga anggota divisi."
       />
       <section className="px-[6%] py-16 min-h-[400px]">
         <SupabaseNotice />

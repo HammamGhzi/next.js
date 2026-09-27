@@ -107,6 +107,20 @@ export interface PkmSubmission {
   updated_at: string;
 }
 
+export interface NewsPost {
+  id: string;
+  title: string;
+  excerpt: string | null;
+  thumbnail_url: string;
+  ig_url: string;
+  category: string | null;
+  published: boolean;
+  published_at: string;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 // ──────────────────────────────────────────────────────────────
 // Helpers
 // ──────────────────────────────────────────────────────────────
